@@ -1,0 +1,194 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f4f6fb;
+}
+
+.navbar{
+background:#041b53;
+padding:20px 80px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.navbar ul{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+.navbar a{
+color:white;
+text-decoration:none;
+}
+
+.login-btn{
+background:#ffc7df;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+}
+
+.hero{
+background:#041b53;
+color:white;
+padding:80px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.hero h1{
+font-size:72px;
+font-weight:800;
+}
+
+.hero span{
+color:#ffc7df;
+}
+
+.hero-image img{
+width:600px;
+border-radius:20px;
+}
+
+/* =========================
+   ABOUT PAGE
+========================= */
+
+.about-hero{
+    background:#05164D;
+    color:white;
+    padding:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:50px;
+}
+
+.about-left{
+    width:40%;
+}
+
+.about-left h1{
+    font-size:56px;
+    margin-bottom:20px;
+}
+
+.about-left p{
+    line-height:1.8;
+}
+
+.about-right{
+    width:60%;
+}
+
+.about-right img{
+    width:100%;
+    border-radius:20px;
+}
+
+.visi-misi{
+    padding:70px 100px;
+    text-align:center;
+}
+
+.visi-misi h2{
+    margin-bottom:40px;
+    color:#05164D;
+}
+
+.vm-container{
+    display:flex;
+    gap:30px;
+}
+
+.vm-card{
+    flex:1;
+    background:#f5f6fa;
+    padding:40px;
+    border-radius:20px;
+    text-align:left;
+}
+
+.vm-card h3{
+    margin-bottom:15px;
+}
+
+.struktur{
+    padding:70px 100px;
+    text-align:center;
+}
+
+.pengurus-grid{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin:40px 0;
+}
+
+.pengurus-card img{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.outline-btn{
+    background:white;
+    border:2px solid #05164D;
+    padding:12px 25px;
+    border-radius:10px;
+}
+
+.history{
+    padding:70px 100px;
+    display:flex;
+    align-items:center;
+    gap:50px;
+}
+
+.history-left{
+    width:50%;
+}
+
+.history-right{
+    width:50%;
+}
+
+.history-right img{
+    width:100%;
+    border-radius:20px;
+}
+
+.history button{
+    margin-top:20px;
+    background:#05164D;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+}
+
+.join-us{
+    background:#05164D;
+    color:white;
+    padding:50px 100px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.join-us button{
+    background:#ffc6df;
+    border:none;
+    padding:14px 28px;
+    border-radius:10px;
+    font-weight:600;
+}
