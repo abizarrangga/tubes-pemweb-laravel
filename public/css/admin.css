@@ -1,0 +1,101 @@
+body{
+    margin:0;
+    background:#f5f6fb;
+    font-family:Poppins,sans-serif;
+}
+
+.admin-wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:#041b5a;
+    color:white;
+    padding:25px;
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:0;
+}
+
+.sidebar li{
+    margin-bottom:10px;
+}
+
+.sidebar a{
+    color:white;
+    text-decoration:none;
+    display:block;
+    padding:12px;
+    border-radius:10px;
+}
+
+.sidebar .active a{
+    background:#a34fd6;
+}
+
+.content{
+    flex:1;
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.btn-save{
+    background:#ff5ea8;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:10px;
+}
+
+.tab-menu{
+    display:flex;
+    gap:15px;
+    margin-top:20px;
+    margin-bottom:25px;
+}
+
+.tab-menu button{
+    border:none;
+    background:white;
+    padding:12px 25px;
+    border-radius:10px;
+}
+
+.tab-menu .active{
+    background:#ffe3ef;
+    color:#ff5ea8;
+}
+
+.about-grid{
+    display:grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap:20px;
+}
+
+.card-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+}
+
+.preview-card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    position:sticky;
+    top:20px;
+}
+
+.preview-image{
+    width:100%;
+    border-radius:10px;
+}

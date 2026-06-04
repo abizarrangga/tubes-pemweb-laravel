@@ -40,14 +40,6 @@
                        class="flex items-center gap-4 px-4 py-3 {{ request()->is('admin/event*') ? 'bg-white/10 text-white' : 'hover:bg-white/5 hover:text-white' }} rounded-xl font-medium transition-all">
                         <i class="fa-regular fa-calendar-days text-sm w-5"></i> Event
                     </a>
-                    <a href="{{ url('/admin/pagelaran') }}"
-                       class="flex items-center gap-4 px-4 py-3 {{ request()->is('admin/pagelaran*') ? 'bg-white/10 text-white' : 'hover:bg-white/5 hover:text-white' }} rounded-xl font-medium transition-all">
-                        <i class="fa-solid fa-masks-theater text-sm w-5"></i> Pagelaran
-                    </a>
-                    <a href="{{ url('/admin/galeri') }}"
-                       class="flex items-center gap-4 px-4 py-3 {{ request()->is('admin/galeri*') ? 'bg-white/10 text-white' : 'hover:bg-white/5 hover:text-white' }} rounded-xl font-medium transition-all">
-                        <i class="fa-regular fa-image text-sm w-5"></i> Galeri
-                    </a>
                     <a href="{{ url('/admin/pengguna') }}"
                        class="flex items-center gap-4 px-4 py-3 {{ request()->is('admin/pengguna*') ? 'bg-white/10 text-white' : 'hover:bg-white/5 hover:text-white' }} rounded-xl font-medium transition-all">
                         <i class="fa-solid fa-users text-sm w-5"></i> Pengguna

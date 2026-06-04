@@ -39,14 +39,6 @@
                    class="{{ request()->is('berita') ? 'text-white border-b border-pink-400 pb-0.5' : 'hover:text-white' }} transition-colors">
                     Berita
                 </a>
-                <a href="{{ url('/pagelaran') }}"
-                   class="{{ request()->is('pagelaran') ? 'text-white border-b border-pink-400 pb-0.5' : 'hover:text-white' }} transition-colors">
-                    Pagelaran
-                </a>
-                <a href="{{ url('/galeri') }}"
-                   class="{{ request()->is('galeri') ? 'text-white border-b border-pink-400 pb-0.5' : 'hover:text-white' }} transition-colors">
-                    Galeri
-                </a>
                 <a href="{{ url('/kontak') }}"
                    class="{{ request()->is('kontak') ? 'text-white border-b border-pink-400 pb-0.5' : 'hover:text-white' }} transition-colors">
                     Kontak
