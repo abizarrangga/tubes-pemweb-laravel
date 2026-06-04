@@ -8,25 +8,11 @@ class BeritaController extends Controller
 {
     public function index()
     {
-<<<<<<< HEAD
-        return view('admin.berita.index');
-=======
         return view('admin.news.index');
->>>>>>> 4c77fbd (Udah bagus tapi belum final -dim)
     }
 
     public function create()
     {
-<<<<<<< HEAD
-        return view('admin.berita.create');
-    }
-
-    public function edit($id)
-    {
-        return view('admin.berita.edit');
-    }
-}
-=======
         return view('admin.news.create');
     }
 
@@ -55,4 +41,3 @@ class BeritaController extends Controller
         return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus.');
     }
 }
->>>>>>> 4c77fbd (Udah bagus tapi belum final -dim)

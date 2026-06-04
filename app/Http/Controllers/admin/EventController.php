@@ -16,13 +16,6 @@ class EventController extends Controller
         return view('admin.event.create');
     }
 
-<<<<<<< HEAD
-    public function edit($id)
-    {
-        return view('admin.event.edit');
-    }
-}
-=======
     public function store()
     {
         return redirect()->route('admin.event.index')->with('success', 'Event berhasil ditambahkan.');
@@ -48,4 +41,3 @@ class EventController extends Controller
         return redirect()->route('admin.event.index')->with('success', 'Event berhasil dihapus.');
     }
 }
->>>>>>> 4c77fbd (Udah bagus tapi belum final -dim)
