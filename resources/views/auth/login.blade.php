@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -28,7 +28,7 @@
             </div>
             <div>
                 <label class="block text-gray-300 text-sm mb-2">Password</label>
-                <input type="password" name="password" placeholder="••••••••" required
+                <input type="password" name="password" placeholder="********" required
                        class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border border-gray-600 focus:outline-none focus:border-[#FF4181] transition duration-300">
             </div>
             <button type="submit"
@@ -43,10 +43,11 @@
                 <a href="{{ url('/register') }}" class="text-[#F8bde2] hover:underline">Daftar sekarang</a>
             </p>
             <p class="text-gray-400 text-sm">
-                <a href="{{ url('/') }}" class="text-gray-500 hover:text-gray-300 text-xs">← Kembali ke Beranda</a>
+                <a href="{{ url('/') }}" class="text-gray-500 hover:text-gray-300 text-xs"><- Kembali ke Beranda</a>
             </p>
         </div>
     </div>
 
 </body>
 </html>
+

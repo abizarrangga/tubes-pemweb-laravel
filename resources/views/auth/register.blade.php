@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -33,12 +33,12 @@
             </div>
             <div>
                 <label class="block text-gray-300 text-sm mb-2">Password</label>
-                <input type="password" name="password" placeholder="••••••••" required
+                <input type="password" name="password" placeholder="********" required
                        class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border border-gray-600 focus:outline-none focus:border-[#FF4181] transition duration-300">
             </div>
             <div>
                 <label class="block text-gray-300 text-sm mb-2">Konfirmasi Password</label>
-                <input type="password" name="password_confirmation" placeholder="••••••••" required
+                <input type="password" name="password_confirmation" placeholder="********" required
                        class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border border-gray-600 focus:outline-none focus:border-[#FF4181] transition duration-300">
             </div>
             <button type="submit"
@@ -53,10 +53,11 @@
                 <a href="{{ url('/login') }}" class="text-[#F8bde2] hover:underline">Login di sini</a>
             </p>
             <p>
-                <a href="{{ url('/') }}" class="text-gray-500 hover:text-gray-300 text-xs">← Kembali ke Beranda</a>
+                <a href="{{ url('/') }}" class="text-gray-500 hover:text-gray-300 text-xs"><- Kembali ke Beranda</a>
             </p>
         </div>
     </div>
 
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-@extends('layouts.main')
+﻿@extends('layouts.main')
 
 @section('title', 'Tiket')
 
@@ -15,7 +15,7 @@
 
 {{-- ===== TIKET CARDS ===== --}}
 <section class="container mx-auto px-6 py-16">
-    <h2 class="text-xl font-bold text-[#0B2545] mb-8 text-center">Pentas Akbar 2026 — 20 Juni 2026</h2>
+    <h2 class="text-xl font-bold text-[#0B2545] mb-8 text-center">Pentas Akbar 2026 - 20 Juni 2026</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
 
@@ -84,7 +84,7 @@
                     ['icon' => 'fa-solid fa-mouse-pointer', 'step' => '1', 'title' => 'Pilih Tiket',    'desc' => 'Pilih jenis tiket yang sesuai kebutuhanmu.'],
                     ['icon' => 'fa-solid fa-user',          'step' => '2', 'title' => 'Isi Data',       'desc' => 'Lengkapi formulir data diri dengan benar.'],
                     ['icon' => 'fa-solid fa-credit-card',   'step' => '3', 'title' => 'Bayar',          'desc' => 'Lakukan pembayaran via transfer bank atau QRIS.'],
-                    ['icon' => 'fa-solid fa-ticket',        'step' => '4', 'title' => 'Terima Tiket',   'desc' => 'E-ticket dikirim ke email dalam 1×24 jam.'],
+                    ['icon' => 'fa-solid fa-ticket',        'step' => '4', 'title' => 'Terima Tiket',   'desc' => 'E-ticket dikirim ke email dalam 1x24 jam.'],
                 ];
             @endphp
             @foreach ($steps as $s)
@@ -102,3 +102,4 @@
 </section>
 
 @endsection
+

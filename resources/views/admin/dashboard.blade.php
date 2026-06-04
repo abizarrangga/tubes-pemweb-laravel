@@ -1,88 +1,121 @@
-@extends('layouts.admin')
-
-@section('title', 'Dashboard')
-@section('page-title', 'Dashboard')
+@extends('admin.layouts.admin')
 
 @section('content')
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
-    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Event</span>
-        <span class="text-4xl font-extrabold text-gray-800 mt-2">24</span>
-        <a href="{{ url('/admin/event') }}" class="text-xs text-pink-400 hover:underline mt-2">Kelola Event →</a>
-    </div>
-    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Berita</span>
-        <span class="text-4xl font-extrabold text-gray-800 mt-2">48</span>
-        <a href="{{ url('/admin/berita') }}" class="text-xs text-pink-400 hover:underline mt-2">Kelola Berita →</a>
-    </div>
-    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Pagelaran</span>
-        <span class="text-4xl font-extrabold text-gray-800 mt-2">18</span>
-        <a href="{{ url('/admin/pagelaran') }}" class="text-xs text-pink-400 hover:underline mt-2">Kelola Pagelaran →</a>
-    </div>
-    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Pengunjung</span>
-        <span class="text-4xl font-extrabold text-gray-800 mt-2">1.250</span>
-        <span class="text-xs text-gray-400 mt-2">Bulan ini</span>
-    </div>
-</div>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h3 class="text-sm font-bold text-[#0B2545] mb-4">Grafik Pengunjung</h3>
-        <div class="h-64">
-            <canvas id="visitorChart"></canvas>
+<div class="container-fluid">
+
+    <h2 class="fw-bold mb-4">
+        Dashboard
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h6>Total Event</h6>
+
+                    <h2>24</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h6>Total Berita</h6>
+
+                    <h2>48</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h6>Total Pagelaran</h6>
+
+                    <h2>18</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h6>Total Pengunjung</h6>
+
+                    <h2>1250</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4 mt-1">
+        <div class="col-lg-8">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0">Statistik Pengunjung</h5>
+                        <span class="badge bg-primary-subtle text-primary">Juni 2026</span>
+                    </div>
+                    <div style="height:260px">
+                        <canvas id="visitorChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">Aktivitas Terbaru</h5>
+                    <div class="d-flex flex-column gap-3 small">
+                        <div class="d-flex gap-3">
+                            <i class="bi bi-calendar-event text-primary"></i>
+                            <span>Event Pentas Akbar diperbarui.</span>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <i class="bi bi-newspaper text-danger"></i>
+                            <span>Berita pendaftaran member ditambahkan.</span>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <i class="bi bi-info-circle text-success"></i>
+                            <span>Profil organisasi siap ditampilkan.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-bold text-[#0B2545]">Berita Terbaru</h3>
-            <a href="{{ url('/admin/berita') }}" class="text-[10px] text-pink-400 hover:underline">Lihat Semua</a>
-        </div>
-        <div class="space-y-4 flex-1">
-            <div class="flex gap-4 items-center">
-                <div class="w-16 h-16 bg-blue-900 rounded-xl overflow-hidden shrink-0">
-                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150" alt="Event" class="w-full h-full object-cover">
-                </div>
-                <div class="flex flex-col">
-                    <h4 class="text-xs font-bold text-gray-800 leading-tight hover:text-blue-600 cursor-pointer">Pendaftaran Member Baru Dapur Seni Biru 2026</h4>
-                    <span class="text-[10px] text-gray-400 font-medium mt-1">5 Mei 2026</span>
-                </div>
-            </div>
-            <div class="flex gap-4 items-center">
-                <div class="w-16 h-16 bg-blue-900 rounded-xl overflow-hidden shrink-0">
-                    <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=150" alt="Theater" class="w-full h-full object-cover">
-                </div>
-                <div class="flex flex-col">
-                    <h4 class="text-xs font-bold text-gray-800 leading-tight hover:text-blue-600 cursor-pointer">Tim Teater DSB Raih Juara 1 di Festival Nasional</h4>
-                    <span class="text-[10px] text-gray-400 font-medium mt-1">2 Mei 2026</span>
-                </div>
-            </div>
-            <div class="flex gap-4 items-center">
-                <div class="w-16 h-16 bg-blue-900 rounded-xl overflow-hidden shrink-0">
-                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=150" alt="Workshop" class="w-full h-full object-cover">
-                </div>
-                <div class="flex flex-col">
-                    <h4 class="text-xs font-bold text-gray-800 leading-tight hover:text-blue-600 cursor-pointer">Dokumentasi Workshop Desain Grafis</h4>
-                    <span class="text-[10px] text-gray-400 font-medium mt-1">26 April 2026</span>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
-{{-- Shortcut ke publik --}}
-<div class="mt-6 bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-    <h3 class="text-sm font-bold text-[#0B2545] mb-3">Lihat Tampilan Publik</h3>
-    <div class="flex flex-wrap gap-3">
-        <a href="{{ url('/') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Beranda</a>
-        <a href="{{ url('/berita') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Berita</a>
-        <a href="{{ url('/event') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Event</a>
-        <a href="{{ url('/pagelaran') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Pagelaran</a>
-        <a href="{{ url('/galeri') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Galeri</a>
-    </div>
-</div>
 @endsection
 
 @push('scripts')

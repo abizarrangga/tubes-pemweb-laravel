@@ -1,4 +1,4 @@
-@extends('layouts.main')
+﻿@extends('layouts.main')
 
 @section('title', 'Event')
 
@@ -131,7 +131,7 @@
                     <span>2 Februari 2026</span>
                     <span class="ml-auto text-gray-400 font-semibold">Selesai</span>
                 </div>
-                <h3 class="font-bold text-gray-800 text-base mb-2">Open Mic Nite — Suara Kampus</h3>
+                <h3 class="font-bold text-gray-800 text-base mb-2">Open Mic Nite - Suara Kampus</h3>
                 <p class="text-gray-500 text-xs leading-relaxed mb-4">Malam seni open mic yang menampilkan penampilan musik, puisi, dan stand-up comedy.</p>
                 <div class="flex items-center gap-2 text-gray-400 text-xs mb-5">
                     <i class="fa-solid fa-location-dot text-pink-400"></i>
@@ -158,3 +158,4 @@
 </section>
 
 @endsection
+

@@ -16,8 +16,36 @@ class EventController extends Controller
         return view('admin.event.create');
     }
 
+<<<<<<< HEAD
     public function edit($id)
     {
         return view('admin.event.edit');
     }
 }
+=======
+    public function store()
+    {
+        return redirect()->route('admin.event.index')->with('success', 'Event berhasil ditambahkan.');
+    }
+
+    public function show(string $id)
+    {
+        return redirect()->route('admin.event.edit', $id);
+    }
+
+    public function edit(string $id)
+    {
+        return view('admin.event.edit', ['id' => $id]);
+    }
+
+    public function update(string $id)
+    {
+        return redirect()->route('admin.event.index')->with('success', 'Event berhasil diperbarui.');
+    }
+
+    public function destroy(string $id)
+    {
+        return redirect()->route('admin.event.index')->with('success', 'Event berhasil dihapus.');
+    }
+}
+>>>>>>> 4c77fbd (Udah bagus tapi belum final -dim)

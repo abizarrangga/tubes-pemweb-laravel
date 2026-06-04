@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dapur Seni Biru') - Portal Seni Mahasiswa UPI Cibiru</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; }
-    </style>
-    @stack('styles')
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>@yield('title','Dapur Seni Biru')</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet">
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel="stylesheet"
+      href="{{ asset('assets/css/frontend/main.css') }}">
+
+<link rel="stylesheet"
+      href="{{ asset('assets/css/frontend/pages.css') }}">
+
 </head>
-<body class="bg-white text-gray-800">
 
-    {{-- ===== NAVBAR ===== --}}
-    <header class="bg-[#0B2545] text-white sticky top-0 z-50 shadow-lg">
-        <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="{{ url('/') }}" class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#0B2545] font-bold text-xs">DSB</div>
-                <h1 class="text-sm font-bold tracking-wider leading-tight">DAPUR SENI BIRU</h1>
-            </a>
+<body class="bg-gray-50">
 
+<<<<<<< HEAD
             <div class="hidden md:flex items-center gap-x-6 text-xs font-medium text-gray-300">
                 <a href="{{ url('/') }}"
                    class="{{ request()->is('/') ? 'text-white border-b border-pink-400 pb-0.5' : 'hover:text-white' }} transition-colors">
@@ -44,75 +49,71 @@
                     Kontak
                 </a>
             </div>
+=======
+<header class="bg-[#0B2545] text-white sticky top-0 z-50 shadow-lg shadow-blue-950/10">
+    <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="{{ route('home') }}" class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-white text-[#0B2545] flex items-center justify-center font-black">DSB</span>
+            <span class="font-bold tracking-wide">Dapur Seni Biru</span>
+        </a>
+>>>>>>> 4c77fbd (Udah bagus tapi belum final -dim)
 
-            <a href="{{ url('/login') }}" class="bg-pink-400 text-white text-xs font-semibold px-5 py-2.5 rounded-xl hover:bg-pink-500 transition-colors">
+        <div class="hidden md:flex items-center gap-1 text-sm">
+            @php
+                $menus = [
+                    ['label' => 'Beranda', 'route' => 'home'],
+                    ['label' => 'Tentang', 'route' => 'tentang'],
+                    ['label' => 'Event', 'route' => 'event'],
+                    ['label' => 'Pagelaran', 'route' => 'pagelaran'],
+                    ['label' => 'Galeri', 'route' => 'galeri'],
+                    ['label' => 'Berita', 'route' => 'berita'],
+                    ['label' => 'Kontak', 'route' => 'kontak'],
+                ];
+            @endphp
+
+            @foreach ($menus as $menu)
+                <a href="{{ route($menu['route']) }}"
+                   class="px-3 py-2 rounded-lg hover:bg-white/10 {{ request()->routeIs($menu['route']) ? 'bg-white/15 text-pink-200' : 'text-gray-200' }}">
+                    {{ $menu['label'] }}
+                </a>
+            @endforeach
+
+            <a href="{{ route('login') }}" class="ml-2 px-4 py-2 rounded-lg bg-pink-400 text-[#0B2545] font-semibold hover:bg-pink-300">
                 Login
             </a>
-        </nav>
-    </header>
-
-    {{-- ===== MAIN CONTENT ===== --}}
-    @yield('content')
-
-    {{-- ===== FOOTER ===== --}}
-    <footer class="bg-[#0B2545] text-gray-400 text-xs mt-12">
-        <div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-2 text-white">
-                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#0B2545] font-bold text-xs">DSB</div>
-                    <h1 class="font-bold tracking-wider leading-tight">DAPUR SENI BIRU</h1>
-                </div>
-                <p class="leading-relaxed">Dapur Seni Biru adalah wadah kreativitas, seni, dan kolaborasi mahasiswa UPI Kampus Cibiru.</p>
-                <div class="flex items-center gap-4 text-gray-300 mt-2">
-                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
-                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-tiktok text-lg"></i></a>
-                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-youtube text-lg"></i></a>
-                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook-f text-lg"></i></a>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-3">
-                <h3 class="font-bold text-white mb-2 tracking-wide uppercase">Menu</h3>
-                <a href="{{ url('/') }}" class="hover:text-white transition-colors">Beranda</a>
-                <a href="{{ url('/tentang') }}" class="hover:text-white transition-colors">Tentang</a>
-                <a href="{{ url('/event') }}" class="hover:text-white transition-colors">Event</a>
-                <a href="{{ url('/berita') }}" class="hover:text-white transition-colors">Berita</a>
-                <a href="{{ url('/pagelaran') }}" class="hover:text-white transition-colors">Pagelaran</a>
-                <a href="{{ url('/galeri') }}" class="hover:text-white transition-colors">Galeri</a>
-            </div>
-
-            <div class="flex flex-col gap-3">
-                <h3 class="font-bold text-white mb-2 tracking-wide uppercase">Informasi</h3>
-                <a href="{{ url('/tentang') }}" class="hover:text-white transition-colors">Struktur</a>
-                <a href="{{ url('/tentang') }}" class="hover:text-white transition-colors">Divisi</a>
-                <a href="{{ url('/kontak') }}" class="hover:text-white transition-colors">Bergabung</a>
-                <a href="{{ url('/kontak') }}" class="hover:text-white transition-colors">FAQ</a>
-            </div>
-
-            <div class="flex flex-col gap-3">
-                <h3 class="font-bold text-white mb-2 tracking-wide uppercase">Kontak Kami</h3>
-                <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-envelope text-gray-500 w-4"></i>
-                    dapursenibiru@gmail.com
-                </div>
-                <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-phone text-gray-500 w-4"></i>
-                    +62 812-3456-7890
-                </div>
-                <div class="flex items-start gap-2.5">
-                    <i class="fa-solid fa-location-dot text-gray-500 w-4 mt-1"></i>
-                    <span class="flex-1 leading-relaxed">Aula UPI Cibiru, Bandung</span>
-                </div>
-            </div>
         </div>
 
-        <div class="border-t border-gray-700">
-            <div class="container mx-auto px-6 py-5 text-center">
-                <p>&copy; 2026 Dapur Seni Biru. All rights reserved.</p>
+        <a href="{{ route('login') }}" class="md:hidden text-sm px-4 py-2 rounded-lg bg-pink-400 text-[#0B2545] font-semibold">
+            Login
+        </a>
+    </nav>
+</header>
+
+@yield('content')
+
+<footer class="bg-[#071a33] text-gray-300">
+    <div class="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+        <div>
+            <h3 class="text-white font-bold mb-3">Dapur Seni Biru</h3>
+            <p class="leading-relaxed">Portal kegiatan seni, pagelaran, galeri, dan berita mahasiswa UPI Kampus Cibiru.</p>
+        </div>
+        <div>
+            <h3 class="text-white font-bold mb-3">Menu</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <a href="{{ route('event') }}" class="hover:text-pink-300">Event</a>
+                <a href="{{ route('pagelaran') }}" class="hover:text-pink-300">Pagelaran</a>
+                <a href="{{ route('galeri') }}" class="hover:text-pink-300">Galeri</a>
+                <a href="{{ route('berita') }}" class="hover:text-pink-300">Berita</a>
             </div>
         </div>
-    </footer>
+        <div>
+            <h3 class="text-white font-bold mb-3">Kontak</h3>
+            <p>dapursenibiru@gmail.com</p>
+            <p class="mt-1">UPI Kampus Cibiru, Bandung</p>
+        </div>
+    </div>
+</footer>
 
-    @stack('scripts')
 </body>
+
 </html>

@@ -1,0 +1,100 @@
+:root{
+    --primary:#05164D;
+    --secondary:#FF7EB3;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#F5F6FA;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.admin-wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:var(--primary);
+    color:white;
+    padding:25px;
+    position:fixed;
+    height:100vh;
+}
+
+.main-content{
+    flex:1;
+    margin-left:260px;
+    padding:30px;
+}
+
+.logo-section{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:40px;
+}
+
+.logo-section img{
+    width:55px;
+    height:55px;
+    object-fit:contain;
+}
+
+.admin-logo{
+    width:55px;
+    height:55px;
+    border-radius:14px;
+    background:white;
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+}
+
+.logo-section h6{
+    margin:0;
+    font-weight:700;
+}
+
+.nav-link{
+    color:white;
+    padding:12px 15px;
+    margin-bottom:8px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    background:rgba(255,255,255,.1);
+    color:white;
+}
+
+.nav-link.active{
+    background:#6C5CE7;
+    color:white;
+}
+
+@media (max-width: 768px){
+    .admin-wrapper{
+        display:block;
+    }
+
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .main-content{
+        margin-left:0;
+        padding:20px;
+    }
+}
