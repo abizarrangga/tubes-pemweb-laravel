@@ -1,22 +1,29 @@
 @extends('layouts.admin')
 
+@section('title', 'Dashboard')
+@section('page-title', 'Dashboard')
+
 @section('content')
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
         <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Event</span>
         <span class="text-4xl font-extrabold text-gray-800 mt-2">24</span>
+        <a href="{{ url('/admin/event') }}" class="text-xs text-pink-400 hover:underline mt-2">Kelola Event →</a>
     </div>
     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
         <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Berita</span>
         <span class="text-4xl font-extrabold text-gray-800 mt-2">48</span>
+        <a href="{{ url('/admin/berita') }}" class="text-xs text-pink-400 hover:underline mt-2">Kelola Berita →</a>
     </div>
     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
         <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Pagelaran</span>
         <span class="text-4xl font-extrabold text-gray-800 mt-2">18</span>
+        <a href="{{ url('/admin/pagelaran') }}" class="text-xs text-pink-400 hover:underline mt-2">Kelola Pagelaran →</a>
     </div>
     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
         <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Pengunjung</span>
         <span class="text-4xl font-extrabold text-gray-800 mt-2">1.250</span>
+        <span class="text-xs text-gray-400 mt-2">Bulan ini</span>
     </div>
 </div>
 
@@ -29,7 +36,10 @@
     </div>
 
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-        <h3 class="text-sm font-bold text-[#0B2545] mb-4">Berita Terbaru</h3>
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-bold text-[#0B2545]">Berita Terbaru</h3>
+            <a href="{{ url('/admin/berita') }}" class="text-[10px] text-pink-400 hover:underline">Lihat Semua</a>
+        </div>
         <div class="space-y-4 flex-1">
             <div class="flex gap-4 items-center">
                 <div class="w-16 h-16 bg-blue-900 rounded-xl overflow-hidden shrink-0">
@@ -61,14 +71,23 @@
         </div>
     </div>
 </div>
+
+{{-- Shortcut ke publik --}}
+<div class="mt-6 bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+    <h3 class="text-sm font-bold text-[#0B2545] mb-3">Lihat Tampilan Publik</h3>
+    <div class="flex flex-wrap gap-3">
+        <a href="{{ url('/') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Beranda</a>
+        <a href="{{ url('/berita') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Berita</a>
+        <a href="{{ url('/event') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Event</a>
+        <a href="{{ url('/pagelaran') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Pagelaran</a>
+        <a href="{{ url('/galeri') }}" target="_blank" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors">Galeri</a>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
 <script>
-    // Konfigurasi Chart.js agar tampilannya mirip grafik pink bergradasi di gambar
     const ctx = document.getElementById('visitorChart').getContext('2d');
-    
-    // Bikin warna gradasi pink transparan ke bawah
     const gradient = ctx.createLinearGradient(0, 0, 0, 250);
     gradient.addColorStop(0, 'rgba(236, 72, 153, 0.4)');
     gradient.addColorStop(1, 'rgba(236, 72, 153, 0.0)');
@@ -76,14 +95,14 @@
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['01', '02', '03', '04', '05', '06', '07', '09', '10', '13', '14', '17', '18', '19', '20', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
+            labels: ['01','02','03','04','05','06','07','09','10','13','14','17','18','19','20','22','23','24','25','26','27','28','29','30'],
             datasets: [{
-                data: [160, 260, 360, 320, 280, 330, 310, 350, 460, 305, 370, 330, 290, 380, 500, 310, 340, 430, 560, 470, 400, 460, 520, 450],
+                data: [160,260,360,320,280,330,310,350,460,305,370,330,290,380,500,310,340,430,560,470,400,460,520,450],
                 borderColor: '#EC4899',
                 backgroundColor: gradient,
                 borderWidth: 2,
                 fill: true,
-                tension: 0.3, // Membuat lekukan garis mulus lembut
+                tension: 0.3,
                 pointRadius: 3,
                 pointBackgroundColor: '#EC4899'
             }]
@@ -93,7 +112,7 @@
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                y: { min: 100, max: 500, ticks: { stepSize: 100, font: { size: 9 } }, grid: { color: '#F3F4F6' } },
+                y: { min: 100, max: 600, ticks: { stepSize: 100, font: { size: 9 } }, grid: { color: '#F3F4F6' } },
                 x: { ticks: { font: { size: 9 } }, grid: { display: false } }
             }
         }
