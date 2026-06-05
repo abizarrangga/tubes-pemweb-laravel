@@ -19,7 +19,7 @@
             <p class="text-gray-400 text-sm mt-2">Selamat datang kembali, silakan masuk ke akunmu</p>
         </div>
 
-        <form action="{{ url('/admin/dashboard') }}" method="GET" class="space-y-5">
+        <form action="{{ route('login.store') }}" method="POST" class="space-y-5">
             @csrf
             <div>
                 <label class="block text-gray-300 text-sm mb-2">Email</label>
@@ -50,4 +50,3 @@
 
 </body>
 </html>
-

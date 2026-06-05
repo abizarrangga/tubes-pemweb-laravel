@@ -32,7 +32,6 @@
                         ['label' => 'About', 'route' => 'about'],
                         ['label' => 'Events', 'route' => 'events'],
                         ['label' => 'News', 'route' => 'news'],
-                        ['label' => 'Contact', 'route' => 'contact'],
                     ];
                 @endphp
 
@@ -42,11 +41,20 @@
                     </a>
                 @endforeach
 
+                @if (session('is_admin'))
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                        Dashboard
+                    </a>
+                @endif
+
                 <a href="{{ route('login') }}" class="login-link">Login</a>
             </div>
 
             <div class="mobile-menu">
                 <a href="{{ route('events') }}" class="nav-link">Events</a>
+                @if (session('is_admin'))
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a>
+                @endif
                 <a href="{{ route('login') }}" class="login-link">Login</a>
             </div>
         </nav>
@@ -69,7 +77,6 @@
                     <a href="{{ route('about') }}">About</a>
                     <a href="{{ route('events') }}">Events</a>
                     <a href="{{ route('news') }}">News</a>
-                    <a href="{{ route('contact') }}">Contact</a>
                 </div>
             </div>
             <div>

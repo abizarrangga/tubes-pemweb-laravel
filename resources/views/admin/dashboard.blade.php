@@ -98,7 +98,7 @@
                     <div class="d-flex flex-column gap-3 small">
                         <div class="d-flex gap-3">
                             <i class="bi bi-calendar-event text-primary"></i>
-                            <span>Event Pentas Akbar diperbarui.</span>
+                            <span>Event Workshop Fotografi diperbarui.</span>
                         </div>
                         <div class="d-flex gap-3">
                             <i class="bi bi-newspaper text-danger"></i>

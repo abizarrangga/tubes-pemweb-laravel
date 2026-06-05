@@ -33,6 +33,23 @@
     <label class="form-label">Ringkasan</label>
     <input type="text" name="ringkasan" class="form-control" value="Informasi terbaru seputar kegiatan Dapur Seni Biru.">
 </div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Upload Gambar Berita</label>
+        <input type="file" name="gambar" class="form-control" accept="image/*">
+        <small class="text-muted">Gambar ini dipakai untuk kartu dan detail berita.</small>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label">URL Gambar</label>
+        <input type="url" name="gambar_url" class="form-control" value="{{ $news['gambar_url'] ?? 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&h=600&fit=crop' }}">
+    </div>
+</div>
+<div class="mb-4">
+    <label class="form-label">Preview Gambar</label>
+    <div class="rounded overflow-hidden border" style="max-width: 360px;">
+        <img src="{{ $news['gambar_url'] ?? 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&h=600&fit=crop' }}" alt="Preview berita" class="img-fluid">
+    </div>
+</div>
 <div class="mb-4">
     <label class="form-label">Isi Berita</label>
     <textarea name="konten" rows="7" class="form-control">Dapur Seni Biru membuka kesempatan bagi mahasiswa untuk bergabung, mengembangkan minat seni, dan terlibat dalam program kreatif sepanjang tahun.</textarea>

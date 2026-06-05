@@ -52,11 +52,11 @@
         </div>
         <div class="grid md:grid-cols-3 gap-6">
             @foreach ([
-                ['img' => 'photo-1514525253161-7a46d19cd819', 'tag' => 'Kegiatan', 'title' => 'Pendaftaran Member Baru Dapur Seni Biru 2026'],
-                ['img' => 'photo-1460661419201-fd4cecdf8a8b', 'tag' => 'Prestasi', 'title' => 'Tim Teater DSB Raih Juara 1 di Festival Nasional'],
-                ['img' => 'photo-1513364776144-60967b0f800f', 'tag' => 'Dokumentasi', 'title' => 'Foto Workshop Desain Grafis dan Pameran Karya'],
+                ['img' => 'photo-1514525253161-7a46d19cd819', 'tag' => 'Kegiatan', 'title' => 'Pendaftaran Member Baru Dapur Seni Biru 2026', 'slug' => 'pendaftaran-member-baru-dapur-seni-biru-2026'],
+                ['img' => 'photo-1460661419201-fd4cecdf8a8b', 'tag' => 'Prestasi', 'title' => 'Tim Teater DSB Raih Juara 1 di Festival Nasional', 'slug' => 'tim-teater-dsb-raih-juara-1-di-festival-nasional'],
+                ['img' => 'photo-1513364776144-60967b0f800f', 'tag' => 'Dokumentasi', 'title' => 'Foto Workshop Desain Grafis dan Pameran Karya', 'slug' => 'foto-workshop-desain-grafis-dan-pameran-karya'],
             ] as $item)
-                <article class="surface-card overflow-hidden">
+                <a href="{{ route('news.show', $item['slug']) }}" class="surface-card overflow-hidden block hover:-translate-y-1 transition">
                     <div class="media-frame h-52 rounded-none">
                         <img src="https://images.unsplash.com/{{ $item['img'] }}?w=700&h=420&fit=crop" alt="{{ $item['title'] }}">
                     </div>
@@ -65,7 +65,7 @@
                         <h3 class="font-black leading-snug">{{ $item['title'] }}</h3>
                         <p class="text-xs text-gray-400">Mei 2026</p>
                     </div>
-                </article>
+                </a>
             @endforeach
         </div>
     </div>
@@ -78,7 +78,7 @@
         <p class="text-white/75 leading-8 max-w-2xl mx-auto">
             Jadilah bagian dari keluarga besar Dapur Seni Biru dan tuangkan kreativitasmu melalui event, karya, dan kolaborasi.
         </p>
-        <a href="{{ route('contact') }}" class="primary-btn">Contact Us</a>
+        <a href="{{ route('about') }}#contact" class="primary-btn">Contact Us</a>
     </div>
 </section>
 

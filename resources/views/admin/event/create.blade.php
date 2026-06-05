@@ -11,7 +11,7 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
-            <form action="{{ route('admin.event.store') }}" method="POST">
+            <form action="{{ route('admin.event.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('admin.event.form', ['button' => 'Simpan Event'])
             </form>

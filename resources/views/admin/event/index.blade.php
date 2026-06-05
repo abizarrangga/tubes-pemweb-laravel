@@ -33,9 +33,9 @@
                     <tbody>
                         @php
                             $events = [
-                                ['id' => 1, 'nama' => 'Pentas Akbar 2026', 'tanggal' => '20 Juni 2026', 'lokasi' => 'Aula UPI Cibiru', 'status' => 'Mendatang'],
                                 ['id' => 2, 'nama' => 'Workshop Fotografi & Sinematografi', 'tanggal' => '5 Juli 2026', 'lokasi' => 'Ruang Kreatif DSB', 'status' => 'Mendatang'],
                                 ['id' => 3, 'nama' => 'Festival Teater Mahasiswa 2026', 'tanggal' => '15 Maret 2026', 'lokasi' => 'Gedung Kesenian Bandung', 'status' => 'Selesai'],
+                                ['id' => 4, 'nama' => 'Festival Musik Kampus Biru', 'tanggal' => '18 September 2026', 'lokasi' => 'Lapangan UPI Cibiru', 'status' => 'Mendatang'],
                             ];
                         @endphp
 

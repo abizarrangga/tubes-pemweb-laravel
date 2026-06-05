@@ -11,7 +11,7 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
-            <form action="{{ route('admin.berita.store') }}" method="POST">
+            <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('admin.news.form', ['button' => 'Simpan Berita'])
             </form>

@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-8 mb-3">
         <label class="form-label">Nama Event</label>
-        <input type="text" name="nama" class="form-control" value="{{ $event['nama'] ?? 'Pentas Akbar 2026' }}" required>
+        <input type="text" name="nama" class="form-control" value="{{ $event['nama'] ?? 'Workshop Fotografi & Sinematografi' }}" required>
     </div>
     <div class="col-md-4 mb-3">
         <label class="form-label">Kategori</label>
@@ -33,6 +33,23 @@
 <div class="mb-3">
     <label class="form-label">Lokasi</label>
     <input type="text" name="lokasi" class="form-control" value="{{ $event['lokasi'] ?? 'Aula UPI Cibiru, Bandung' }}" required>
+</div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Upload Gambar Event</label>
+        <input type="file" name="gambar" class="form-control" accept="image/*">
+        <small class="text-muted">Pilih gambar dari perangkat untuk banner/kartu event.</small>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label">URL Gambar</label>
+        <input type="url" name="gambar_url" class="form-control" value="{{ $event['gambar_url'] ?? 'https://images.unsplash.com/photo-1560421683-6856ea585c78?w=900&h=600&fit=crop' }}">
+    </div>
+</div>
+<div class="mb-4">
+    <label class="form-label">Preview Gambar</label>
+    <div class="rounded overflow-hidden border" style="max-width: 360px;">
+        <img src="{{ $event['gambar_url'] ?? 'https://images.unsplash.com/photo-1560421683-6856ea585c78?w=900&h=600&fit=crop' }}" alt="Preview event" class="img-fluid">
+    </div>
 </div>
 <div class="mb-4">
     <label class="form-label">Deskripsi</label>

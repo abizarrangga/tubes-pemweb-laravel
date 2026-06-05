@@ -17,7 +17,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <h5 class="fw-bold mb-3">Profil Organisasi</h5>
-                    <form>
+                    <form enctype="multipart/form-data">
                         <div class="mb-3">
                             <label class="form-label">Nama Organisasi</label>
                             <input class="form-control" value="Dapur Seni Biru">
@@ -25,6 +25,22 @@
                         <div class="mb-3">
                             <label class="form-label">Deskripsi</label>
                             <textarea class="form-control" rows="5">Dapur Seni Biru adalah wadah mahasiswa UPI Kampus Cibiru untuk berkarya, berkolaborasi, dan mengembangkan diri di bidang seni.</textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Upload Gambar About</label>
+                                <input type="file" name="gambar" class="form-control" accept="image/*">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">URL Gambar</label>
+                                <input type="url" name="gambar_url" class="form-control" value="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&h=650&fit=crop">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Preview Gambar</label>
+                            <div class="rounded overflow-hidden border" style="max-width: 360px;">
+                                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&h=650&fit=crop" alt="Preview about" class="img-fluid">
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">

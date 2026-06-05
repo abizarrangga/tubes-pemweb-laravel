@@ -12,9 +12,9 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
             @php
-                $news = ['judul' => 'Pendaftaran Member Baru Dapur Seni Biru 2026'];
+                $news = ['judul' => 'Pendaftaran Member Baru Dapur Seni Biru 2026', 'gambar_url' => 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=900&h=600&fit=crop'];
             @endphp
-            <form action="{{ route('admin.berita.update', $id ?? 1) }}" method="POST">
+            <form action="{{ route('admin.berita.update', $id ?? 1) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 @include('admin.news.form', ['button' => 'Perbarui Berita', 'news' => $news])
