@@ -1,0 +1,150 @@
+
+```markdown
+# 🚀 Dokumentasi Tugas Besar Pemrograman Web — Laravel, Midtrans & Ngrok
+
+Repositori ini berisi kode sumber untuk aplikasi berbasis framework Laravel yang telah terintegrasi dengan **Payment Gateway Midtrans** dan menggunakan **Ngrok** sebagai terowongan (*tunneling*) untuk menangani *Webhook/Notification* secara lokal (*development mode*).
+
+---
+
+## 📋 Prasyarat Sistem
+Sebelum menjalankan project ini, pastikan komputer Anda telah terinstal:
+* PHP (Disarankan >= 8.1)
+* Composer
+* SQLite (Project ini dikonfigurasi menggunakan SQLite secara default)
+* Akun [Midtrans Sandbox](https://dashboard.sandbox.midtrans.com/)
+* Akun [Ngrok](https://ngrok.com/)
+
+---
+
+## 🛠️ Langkah 1: Menjalankan Project Laravel di Lokal
+
+1. **Clone Repositori & Masuk ke Direktori Project**
+   ```bash
+   git clone <url-repositori-anda>
+   cd tubes-pemweb
+
+```
+
+2. **Instal Dependensi Vendor via Composer**
+Jika terjadi jaringan macet/*timeout* saat mengunduh package Midtrans, bersihkan cache dan jalankan dengan mirror Asia:
+```bash
+composer clear-cache
+composer config --global repo.packagist composer [https://packagist.jp](https://packagist.jp)
+composer require midtrans/midtrans-php --ipv4 --no-audit
+composer install
+
+```
+
+
+3. **Salin dan Sesuaikan File Environment (`.env`)**
+Buat salinan file `.env` dari `.env.example`:
+```bash
+cp .env.example .env
+
+```
+
+
+4. **Generate Application Key**
+```bash
+php artisan key:generate
+
+```
+
+
+5. **Konfigurasi Database (SQLite)**
+Pastikan file `database/database.sqlite` sudah ada. Jika belum, buat file kosong tersebut, kemudian jalankan migrasi database beserta seeder-nya:
+```bash
+touch database/database.sqlite
+php artisan migrate --seed
+
+```
+
+
+6. **Nyalakan Server Lokal**
+```bash
+php artisan serve
+
+```
+
+
+*Secara default, Laravel akan berjalan di port `8000` (`http://127.0.0.1:8000`).*
+
+---
+
+## 🌐 Langkah 2: Setting dan Menjalankan Ngrok
+
+Ngrok diperlukan agar server *cloud* Midtrans bisa mengirimkan sinyal Webhook/*Notification URL* (status perubahan pembayaran lunas) langsung ke komputer lokal Anda.
+
+1. **Autentikasi Token Ngrok**
+Buka terminal di VS Code, lalu masukkan token Ngrok Anda (bisa didapatkan dari dashboard web Ngrok):
+```bash
+ngrok config add-authtoken TOKEN_ANDA_DI_SINI
+
+```
+
+
+2. **Jalankan Terowongan Ngrok Menggunakan IP Lokal**
+Gunakan IP `127.0.0.1` daripada `localhost` untuk menghindari isu antrean koneksi (*request bottleneck* / *delay* lambat pada Windows):
+```bash
+ngrok http 127.0.0.1:8000
+
+```
+
+
+3. **Salin Link Forwarding Ngrok**
+Ambil tautan publik HTTPS yang dihasilkan pada terminal Ngrok, contohnya:
+`https://onscreen-comment-goggles.ngrok-free.dev`
+4. **Perbarui `.env` Laravel**
+Buka kembali file `.env` di project Anda, lalu cari variabel `APP_URL` dan ganti nilainya dengan link Ngrok tersebut:
+```env
+APP_URL=[https://onscreen-comment-goggles.ngrok-free.dev](https://onscreen-comment-goggles.ngrok-free.dev)
+
+```
+
+
+> ⚠️ **PENTING:** Jika Ngrok dimatikan (`Ctrl + C`) and dinyalakan lagi, link publik akan berubah secara acak. Anda harus selalu memperbarui nilai `APP_URL` di `.env` setiap kali link Ngrok berubah.
+
+
+
+---
+
+## 💳 Langkah 3: Integrasi & Pengujian Pembayaran Midtrans
+
+1. **Konfigurasi API Keys di `.env**`
+Masukan Server Key dan Client Key yang didapatkan dari **Dashboard Midtrans Sandbox > Settings > Access Keys**:
+```env
+MIDTRANS_SERVER_KEY=SB-Mid-server-xxxxxxxxxxxx
+MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxxxxxxxxxx
+MIDTRANS_IS_PRODUCTION=false
+
+```
+
+
+2. **Atur Notification & Redirect URL di Dashboard Midtrans**
+Agar status transaksi di database lokal Anda ter-update secara otomatis dan tidak kesasar ke `example.com` setelah membayar:
+* Masuk ke **Dashboard Midtrans Sandbox > Settings > Configuration**.
+* Atur **Payment Redirect URL (Finish URL)** Anda ke route sukses aplikasi Anda, atau arahkan menggunakan variabel dinamis di kode controller (`url('/pembayaran/sukses')`).
+* Isi **Notification URL** dengan endpoint webhook Laravel Anda (misalnya: `https://onscreen-comment-goggles.ngrok-free.dev/api/midtrans-callback`).
+
+
+3. **Cara Melakukan Simulasi Pembayaran QRIS**
+* Klik tombol bayar di aplikasi Anda hingga halaman **Snap Midtrans** muncul dan menampilkan kode QR.
+* **Klik kanan** pada gambar QR Code tersebut, lalu pilih **"Copy image address"** (Salin alamat gambar).
+* Buka browser dan pergi ke **[Midtrans QRIS Simulator](https://simulator.sandbox.midtrans.com/v2/qris/index)**.
+* Tempel (*paste*) link gambar QR Code tadi ke kolom yang disediakan, lalu klik **Submit / Pay**.
+* Status transaksi pada web Laravel Anda akan otomatis berubah menjadi sukses secara *real-time* berkat Ngrok!
+
+
+
+---
+
+## 🛑 Cara Mematikan Layanan
+
+Jika proses *development* atau demonstrasi sudah selesai, Anda bisa menghentikan layanan dengan cara menekan:
+
+* Terminal Laravel: `Ctrl + C`
+* Terminal Ngrok: `Ctrl + C`
+
+```
+
+```
