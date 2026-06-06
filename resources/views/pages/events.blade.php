@@ -22,31 +22,84 @@
 
 <section class="section-screen section-light">
     <div class="w-[min(1180px,calc(100%-32px))] mx-auto">
-        <span class="eyebrow">Event List</span>
-        <h2 class="text-3xl font-black text-[#0b2545] mt-2 mb-8">Daftar Event</h2>
+        <div class="flex flex-wrap items-end justify-between gap-5 mb-8">
+            <div>
+                <span class="eyebrow">Event List</span>
+                <h2 class="text-3xl font-black text-[#0b2545] mt-2">Daftar Event</h2>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                @foreach ([
+                    'semua' => 'Semua',
+                    'mendatang' => 'Mendatang',
+                    'selesai' => 'Selesai',
+                ] as $value => $label)
+                    <a href="{{ route('events', ['status' => $value]) }}"
+                       class="px-4 py-2 rounded-full text-sm font-bold transition
+                              {{ $filter === $value
+                                  ? 'bg-[#0b2545] text-white'
+                                  : 'bg-white text-[#0b2545] border border-gray-200 hover:border-[#ef6fa9]' }}">
+                        {{ $label }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+
         <div class="grid lg:grid-cols-3 gap-6">
-            @foreach ([
-                ['day' => '05', 'mon' => 'Jul', 'tag' => 'Workshop', 'title' => 'Workshop Fotografi & Sinematografi', 'date' => '5 Juli 2026', 'loc' => 'Ruang Kreatif DSB', 'img' => 'photo-1560421683-6856ea585c78', 'status' => 'Mendatang'],
-                ['day' => '12', 'mon' => 'Agu', 'tag' => 'Lomba', 'title' => 'Kompetisi Desain Grafis Nasional', 'date' => '12 Agustus 2026', 'loc' => 'Online & Offline', 'img' => 'photo-1513364776144-60967b0f800f', 'status' => 'Mendatang'],
-                ['day' => '18', 'mon' => 'Sep', 'tag' => 'Festival', 'title' => 'Festival Musik Kampus Biru', 'date' => '18 September 2026', 'loc' => 'Lapangan UPI Cibiru', 'img' => 'photo-1493225457124-a3eb161ffa5f', 'status' => 'Mendatang'],
-            ] as $event)
+            @forelse ($events as $event)
                 <article class="surface-card overflow-hidden">
                     <div class="media-frame h-48 rounded-none">
-                        <img src="https://images.unsplash.com/{{ $event['img'] }}?w=700&h=420&fit=crop" alt="{{ $event['title'] }}">
+                        <img src="{{ $event->gambar_final }}" alt="{{ $event->nama }}">
                     </div>
                     <div class="p-6">
                         <div class="flex gap-4">
-                            <div class="event-date"><div><strong>{{ $event['day'] }}</strong><span>{{ $event['mon'] }}</span></div></div>
+                            <div class="event-date">
+                                <div>
+                                    <strong>{{ $event->tanggal->format('d') }}</strong>
+                                    <span>{{ $event->tanggal->locale('id')->isoFormat('MMM') }}</span>
+                                </div>
+                            </div>
                             <div class="space-y-3">
-                                <span class="pill">{{ $event['tag'] }}</span>
-                                <h3 class="font-black text-lg leading-snug">{{ $event['title'] }}</h3>
-                                <p class="text-sm text-gray-500">{{ $event['date'] }} • {{ $event['loc'] }}</p>
-                                <a href="{{ route('tickets') }}" class="text-sm font-black text-[#ef6fa9] hover:text-[#0b2545] transition">Ticket Order</a>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="pill">{{ $event->kategori }}</span>
+                                    <span class="pill {{ $event->status === 'Selesai' ? 'opacity-70' : '' }}">
+                                        {{ $event->status }}
+                                    </span>
+                                </div>
+                                <h3 class="font-black text-lg leading-snug">{{ $event->nama }}</h3>
+                                <p class="text-sm text-gray-500">
+                                    {{ $event->tanggal->format('d M Y') }} • {{ $event->lokasi }}
+                                </p>
+                                @if ($event->harga)
+                                    <p class="text-sm font-semibold text-[#0b2545]">{{ $event->harga }}</p>
+                                @endif
+                                @if ($event->status === 'Mendatang')
+                                    @if ($event->isFree())
+                                        <a href="{{ route('events.register', $event->slug) }}" class="text-sm font-black text-[#ef6fa9] hover:text-[#0b2545] transition">
+                                            Daftar Sekarang <i class="fa-solid fa-arrow-right ml-1"></i>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('events.book', $event->slug) }}" class="text-sm font-black text-[#ef6fa9] hover:text-[#0b2545] transition">
+                                            Pesan Tiket <i class="fa-solid fa-ticket ml-1"></i>
+                                        </a>
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </div>
                 </article>
-            @endforeach
+            @empty
+                <div class="col-span-3 text-center py-16 text-gray-400">
+                    <p class="text-lg">
+                        @if ($filter === 'mendatang')
+                            Belum ada event mendatang.
+                        @elseif ($filter === 'selesai')
+                            Belum ada event yang selesai.
+                        @else
+                            Belum ada event.
+                        @endif
+                    </p>
+                </div>
+            @endforelse
         </div>
     </div>
 </section>

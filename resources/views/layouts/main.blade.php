@@ -28,10 +28,10 @@
             <div class="desktop-menu">
                 @php
                     $menus = [
-                        ['label' => 'Home', 'route' => 'home'],
-                        ['label' => 'About', 'route' => 'about'],
+                        ['label' => 'Home',   'route' => 'home'],
+                        ['label' => 'About',  'route' => 'about'],
                         ['label' => 'Events', 'route' => 'events'],
-                        ['label' => 'News', 'route' => 'news'],
+                        ['label' => 'News',   'route' => 'news'],
                     ];
                 @endphp
 
@@ -41,21 +41,39 @@
                     </a>
                 @endforeach
 
-                @if (session('is_admin'))
+                {{-- Tampilkan link Dashboard hanya kalau sudah login sebagai admin --}}
+                @if (Auth::check() && Auth::user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         Dashboard
                     </a>
                 @endif
 
-                <a href="{{ route('login') }}" class="login-link">Login</a>
+                {{-- Tampilkan Login atau Logout sesuai status autentikasi --}}
+                @if (Auth::check())
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline">
+                        @csrf
+                        <button type="submit" class="login-link">Logout</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="login-link">Login</a>
+                @endif
             </div>
 
             <div class="mobile-menu">
                 <a href="{{ route('events') }}" class="nav-link">Events</a>
-                @if (session('is_admin'))
+
+                @if (Auth::check() && Auth::user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a>
                 @endif
-                <a href="{{ route('login') }}" class="login-link">Login</a>
+
+                @if (Auth::check())
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline">
+                        @csrf
+                        <button type="submit" class="login-link">Logout</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="login-link">Login</a>
+                @endif
             </div>
         </nav>
     </header>

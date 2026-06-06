@@ -13,7 +13,10 @@
     </div>
 
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     @endif
 
     <div class="card border-0 shadow-sm">
@@ -25,32 +28,31 @@
                             <th>No</th>
                             <th>Judul</th>
                             <th>Kategori</th>
+                            <th>Status</th>
                             <th>Tanggal</th>
                             <th>Penulis</th>
                             <th class="text-end">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $berita = [
-                                ['id' => 1, 'judul' => 'Pendaftaran Member Baru Dapur Seni Biru 2026', 'kategori' => 'Kegiatan', 'tanggal' => '5 Mei 2026', 'penulis' => 'Admin DSB'],
-                                ['id' => 2, 'judul' => 'Tim Teater DSB Raih Juara 1 di Festival Nasional', 'kategori' => 'Prestasi', 'tanggal' => '2 Mei 2026', 'penulis' => 'Admin DSB'],
-                                ['id' => 3, 'judul' => 'Dokumentasi Workshop Desain Grafis', 'kategori' => 'Kegiatan', 'tanggal' => '26 April 2026', 'penulis' => 'Admin DSB'],
-                            ];
-                        @endphp
-
-                        @foreach ($berita as $item)
+                        @forelse ($berita as $item)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td class="fw-semibold">{{ $item['judul'] }}</td>
-                                <td><span class="badge bg-info">{{ $item['kategori'] }}</span></td>
-                                <td>{{ $item['tanggal'] }}</td>
-                                <td>{{ $item['penulis'] }}</td>
+                                <td>{{ $berita->firstItem() + $loop->index }}</td>
+                                <td class="fw-semibold">{{ $item->judul }}</td>
+                                <td><span class="badge bg-info">{{ $item->kategori }}</span></td>
+                                <td>
+                                    <span class="badge {{ $item->status === 'Published' ? 'bg-success' : 'bg-secondary' }}">
+                                        {{ $item->status }}
+                                    </span>
+                                </td>
+                                <td>{{ $item->tanggal->format('d M Y') }}</td>
+                                <td>{{ $item->penulis }}</td>
                                 <td class="text-end">
-                                    <a href="{{ route('admin.berita.edit', $item['id']) }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('admin.berita.edit', $item->id) }}" class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="{{ route('admin.berita.destroy', $item['id']) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" class="d-inline"
+                                          onsubmit="return confirm('Yakin hapus berita ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger" type="submit">
@@ -59,10 +61,23 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">
+                                    Belum ada berita. <a href="{{ route('admin.berita.create') }}">Tambah sekarang</a>.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
+
+            {{-- Pagination --}}
+            @if ($berita->hasPages())
+                <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
+                    {{ $berita->links() }}
+                </div>
+            @endif
         </div>
     </div>
 </div>

@@ -98,3 +98,17 @@ body{
         padding:20px;
     }
 }
+
+/* Fix Bootstrap collapse conflict with Tailwind CSS */
+.collapse.show {
+    visibility: visible !important;
+}
+
+tr.collapse.show {
+    display: table-row !important;
+}
+
+tr.collapse:not(.show) {
+    display: none !important;
+}
+

@@ -58,40 +58,98 @@
 
             </li>
 
+            <!-- Registrasi & Tiket (Admin & Superadmin) -->
             <li class="nav-item">
-
-                <a class="nav-link {{ request()->routeIs('admin.about') ? 'active' : '' }}"
-                   href="{{ route('admin.about') }}">
-
-                    <i class="bi bi-info-circle"></i>
-
-                    Tentang Kami
-
+                <a class="nav-link {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}"
+                   href="{{ route('admin.registrations.index') }}">
+                    <i class="bi bi-person-check"></i>
+                    Registrasi Event
                 </a>
-
             </li>
 
             <li class="nav-item">
-
-                <a class="nav-link {{ request()->routeIs('admin.event.*') ? 'active' : '' }}"
-                   href="{{ route('admin.event.index') }}">
-
-                    <i class="bi bi-calendar-event"></i>
-
-                    Event
-
+                <a class="nav-link {{ request()->routeIs('admin.tickets.index') || request()->routeIs('admin.tickets.show') ? 'active' : '' }}"
+                   href="{{ route('admin.tickets.index') }}">
+                    <i class="bi bi-ticket-perforated"></i>
+                    Pemesanan Tiket
                 </a>
-
             </li>
 
             <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.tickets.validate') ? 'active' : '' }}"
+                   href="{{ route('admin.tickets.validate') }}">
+                    <i class="bi bi-qr-code-scan"></i>
+                    Validasi Tiket
+                </a>
+            </li>
 
-                <a class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}"
-                   href="{{ route('admin.berita.index') }}">
+            <!-- Kelola Konten (Hanya Superadmin) -->
+            @if(Auth::user()->isSuperAdmin())
+                <li class="nav-item mt-2">
+                    <span class="nav-link text-uppercase text-gray-500 font-bold" style="font-size: 10px; letter-spacing: 0.5px; pointer-events: none; padding-top: 10px; padding-bottom: 5px;">Kelola Konten</span>
+                </li>
 
-                    <i class="bi bi-newspaper"></i>
+                <li class="nav-item">
 
-                    Berita
+                    <a class="nav-link {{ request()->routeIs('admin.about') ? 'active' : '' }}"
+                       href="{{ route('admin.about') }}">
+
+                        <i class="bi bi-info-circle"></i>
+
+                        Tentang Kami
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link {{ request()->routeIs('admin.event.*') ? 'active' : '' }}"
+                       href="{{ route('admin.event.index') }}">
+
+                        <i class="bi bi-calendar-event"></i>
+
+                        Event
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}"
+                       href="{{ route('admin.berita.index') }}">
+
+                        <i class="bi bi-newspaper"></i>
+
+                        Berita
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
+                       href="{{ route('admin.users.index') }}">
+
+                        <i class="bi bi-people"></i>
+
+                        User
+
+                    </a>
+
+                </li>
+            @endif
+
+            <li class="nav-item mt-3">
+
+                <a class="nav-link"
+                   href="{{ route('home') }}">
+
+                    <i class="bi bi-house-door"></i>
+
+                    Halaman Utama
 
                 </a>
 

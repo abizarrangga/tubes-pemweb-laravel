@@ -33,14 +33,15 @@
             </p>
         </div>
         <div class="grid sm:grid-cols-2 gap-6">
-            <div class="metric"><strong>24</strong><span>Event terlaksana</span></div>
-            <div class="metric"><strong>48</strong><span>Berita dan dokumentasi</span></div>
-            <div class="metric"><strong>18</strong><span>Produksi seni</span></div>
-            <div class="metric"><strong>1.250+</strong><span>Pengunjung event</span></div>
+            <div class="metric"><strong>{{ $totalEvent }}</strong><span>Total event</span></div>
+            <div class="metric"><strong>{{ $totalBerita }}</strong><span>Berita dan dokumentasi</span></div>
+            <div class="metric"><strong>{{ $eventMendatangCount }}</strong><span>Event mendatang</span></div>
+            <div class="metric"><strong>{{ $totalKonten }}</strong><span>Total konten</span></div>
         </div>
     </div>
 </section>
 
+{{-- Latest News dari DB --}}
 <section class="section-screen section-light">
     <div class="w-[min(1180px,calc(100%-32px))] mx-auto">
         <div class="flex flex-wrap items-end justify-between gap-5 mb-8">
@@ -51,22 +52,22 @@
             <a href="{{ route('news') }}" class="primary-btn">View News</a>
         </div>
         <div class="grid md:grid-cols-3 gap-6">
-            @foreach ([
-                ['img' => 'photo-1514525253161-7a46d19cd819', 'tag' => 'Kegiatan', 'title' => 'Pendaftaran Member Baru Dapur Seni Biru 2026', 'slug' => 'pendaftaran-member-baru-dapur-seni-biru-2026'],
-                ['img' => 'photo-1460661419201-fd4cecdf8a8b', 'tag' => 'Prestasi', 'title' => 'Tim Teater DSB Raih Juara 1 di Festival Nasional', 'slug' => 'tim-teater-dsb-raih-juara-1-di-festival-nasional'],
-                ['img' => 'photo-1513364776144-60967b0f800f', 'tag' => 'Dokumentasi', 'title' => 'Foto Workshop Desain Grafis dan Pameran Karya', 'slug' => 'foto-workshop-desain-grafis-dan-pameran-karya'],
-            ] as $item)
-                <a href="{{ route('news.show', $item['slug']) }}" class="surface-card overflow-hidden block hover:-translate-y-1 transition">
+            @forelse ($beritaTerbaru as $item)
+                <a href="{{ route('news.show', $item->slug) }}" class="surface-card overflow-hidden block hover:-translate-y-1 transition">
                     <div class="media-frame h-52 rounded-none">
-                        <img src="https://images.unsplash.com/{{ $item['img'] }}?w=700&h=420&fit=crop" alt="{{ $item['title'] }}">
+                        <img src="{{ $item->gambar_final }}" alt="{{ $item->judul }}">
                     </div>
                     <div class="p-6 space-y-3">
-                        <span class="pill">{{ $item['tag'] }}</span>
-                        <h3 class="font-black leading-snug">{{ $item['title'] }}</h3>
-                        <p class="text-xs text-gray-400">Mei 2026</p>
+                        <span class="pill">{{ $item->kategori }}</span>
+                        <h3 class="font-black leading-snug">{{ $item->judul }}</h3>
+                        <p class="text-xs text-gray-400">{{ $item->tanggal->format('d M Y') }}</p>
                     </div>
                 </a>
-            @endforeach
+            @empty
+                <div class="col-span-3 text-center py-8 text-gray-400">
+                    Belum ada berita yang dipublikasikan.
+                </div>
+            @endforelse
         </div>
     </div>
 </section>

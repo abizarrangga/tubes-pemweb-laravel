@@ -1,154 +1,99 @@
 @extends('admin.layouts.admin')
 
 @section('content')
-
 <div class="container-fluid">
 
-    <h2 class="fw-bold mb-4">
-        Dashboard
-    </h2>
+    <h2 class="fw-bold mb-4">Dashboard</h2>
 
-    <div class="row g-4">
-
+    {{-- Statistik --}}
+    <div class="row g-4 mb-5">
         <div class="col-md-3">
-
             <div class="card shadow border-0">
-
                 <div class="card-body">
-
-                    <h6>Total Event</h6>
-
-                    <h2>24</h2>
-
+                    <h6 class="text-muted">Total Event</h6>
+                    <h2 class="fw-bold">{{ $totalEvent }}</h2>
                 </div>
-
             </div>
-
         </div>
-
         <div class="col-md-3">
-
             <div class="card shadow border-0">
-
                 <div class="card-body">
-
-                    <h6>Total Berita</h6>
-
-                    <h2>48</h2>
-
+                    <h6 class="text-muted">Total Berita</h6>
+                    <h2 class="fw-bold">{{ $totalBerita }}</h2>
                 </div>
-
             </div>
-
         </div>
-
         <div class="col-md-3">
-
             <div class="card shadow border-0">
-
                 <div class="card-body">
-
-                    <h6>Total Pagelaran</h6>
-
-                    <h2>18</h2>
-
+                    <h6 class="text-muted">Berita Published</h6>
+                    <h2 class="fw-bold">{{ $beritaPublished }}</h2>
                 </div>
-
             </div>
-
         </div>
-
         <div class="col-md-3">
-
             <div class="card shadow border-0">
-
                 <div class="card-body">
-
-                    <h6>Total Pengunjung</h6>
-
-                    <h2>1250</h2>
-
+                    <h6 class="text-muted">Event Mendatang</h6>
+                    <h2 class="fw-bold">{{ $eventMendatang }}</h2>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
-    <div class="row g-4 mt-1">
-        <div class="col-lg-8">
-            <div class="card shadow border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold mb-0">Statistik Pengunjung</h5>
-                        <span class="badge bg-primary-subtle text-primary">Juni 2026</span>
-                    </div>
-                    <div style="height:260px">
-                        <canvas id="visitorChart"></canvas>
-                    </div>
+    <div class="row g-4">
+        {{-- Berita terbaru --}}
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center">
+                    Berita Terbaru
+                    <a href="{{ route('admin.berita.index') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        @forelse ($beritaTerbaru as $b)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-0 fw-semibold">{{ $b->judul }}</p>
+                                    <small class="text-muted">{{ $b->tanggal->format('d M Y') }} · {{ $b->kategori }}</small>
+                                </div>
+                                <span class="badge {{ $b->status === 'Published' ? 'bg-success' : 'bg-secondary' }}">
+                                    {{ $b->status }}
+                                </span>
+                            </li>
+                        @empty
+                            <li class="list-group-item text-muted text-center py-4">Belum ada berita.</li>
+                        @endforelse
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4">
-            <div class="card shadow border-0">
-                <div class="card-body">
-                    <h5 class="fw-bold mb-3">Aktivitas Terbaru</h5>
-                    <div class="d-flex flex-column gap-3 small">
-                        <div class="d-flex gap-3">
-                            <i class="bi bi-calendar-event text-primary"></i>
-                            <span>Event Workshop Fotografi diperbarui.</span>
-                        </div>
-                        <div class="d-flex gap-3">
-                            <i class="bi bi-newspaper text-danger"></i>
-                            <span>Berita pendaftaran member ditambahkan.</span>
-                        </div>
-                        <div class="d-flex gap-3">
-                            <i class="bi bi-info-circle text-success"></i>
-                            <span>Profil organisasi siap ditampilkan.</span>
-                        </div>
-                    </div>
+        {{-- Event terdekat --}}
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center">
+                    Event Mendatang
+                    <a href="{{ route('admin.event.index') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        @forelse ($eventTerdekat as $e)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-0 fw-semibold">{{ $e->nama }}</p>
+                                    <small class="text-muted">{{ $e->tanggal->format('d M Y') }} · {{ $e->lokasi }}</small>
+                                </div>
+                                <span class="badge bg-primary">{{ $e->status }}</span>
+                            </li>
+                        @empty
+                            <li class="list-group-item text-muted text-center py-4">Belum ada event mendatang.</li>
+                        @endforelse
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
-
 @endsection
-
-@push('scripts')
-<script>
-    const ctx = document.getElementById('visitorChart').getContext('2d');
-    const gradient = ctx.createLinearGradient(0, 0, 0, 250);
-    gradient.addColorStop(0, 'rgba(236, 72, 153, 0.4)');
-    gradient.addColorStop(1, 'rgba(236, 72, 153, 0.0)');
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['01','02','03','04','05','06','07','09','10','13','14','17','18','19','20','22','23','24','25','26','27','28','29','30'],
-            datasets: [{
-                data: [160,260,360,320,280,330,310,350,460,305,370,330,290,380,500,310,340,430,560,470,400,460,520,450],
-                borderColor: '#EC4899',
-                backgroundColor: gradient,
-                borderWidth: 2,
-                fill: true,
-                tension: 0.3,
-                pointRadius: 3,
-                pointBackgroundColor: '#EC4899'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { min: 100, max: 600, ticks: { stepSize: 100, font: { size: 9 } }, grid: { color: '#F3F4F6' } },
-                x: { ticks: { font: { size: 9 } }, grid: { display: false } }
-            }
-        }
-    });
-</script>
-@endpush

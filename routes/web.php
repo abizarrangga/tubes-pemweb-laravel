@@ -1,79 +1,96 @@
 <?php
 
+use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes - Portal Dapur Seni Biru (Portal Dapus)
-|--------------------------------------------------------------------------
-*/
+// ─── Halaman Publik ───────────────────────────────────────────────────────────
 
-// ==========================================
-// 1. HALAMAN PUBLIK / MAHASISWA (TAILWIND)
-// ==========================================
-Route::view('/', 'pages.home')->name('home');
-Route::view('/tentang', 'pages.about')->name('about');
-Route::view('/tiket', 'pages.tickets')->name('tickets');
+Route::get('/',        [PageController::class, 'home'])->name('home');
+Route::get('/about',   [PageController::class, 'about'])->name('about');
+Route::get('/events',  [PageController::class, 'events'])->name('events');
 
-// Halaman Event (Sisi Mahasiswa) - Disesuaikan dengan panggillan route('events')
-// Halaman Event (Sisi Mahasiswa) - Arahkan ke folder pages
-Route::get('/event', function () { return view('pages.events'); })->name('events');
-Route::get('/event/detail', function () { return view('events.details'); })->name('events.details');
+// Midtrans webhook callback
+Route::post('/midtrans/callback', [TicketController::class, 'callback'])->name('midtrans.callback');
 
-// Halaman Berita (Sisi Mahasiswa) - Disesuaikan dengan panggilan route('news')
-Route::get('/berita', function () { return view('news.index'); })->name('news');
-Route::get('/berita/detail/{slug}', function ($slug) { return view('news.show', compact('slug')); })->name('news.show');
+// Alur Pendaftaran & Tiket (Harus Login)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/tickets', [TicketController::class, 'userTickets'])->name('tickets');
+    Route::get('/tickets/payment/finish', [TicketController::class, 'paymentFinish'])->name('tickets.payment.finish');
+    Route::get('/tickets/{id}/success', [TicketController::class, 'bookSuccess'])->name('tickets.book.success');
 
-// Rute Pengiriman Form Kontak & Tiket
-Route::post('/contact-store', function () { return back()->with('success', 'Pesan/Pemesanan berhasil terkirim ke panitia!'); })->name('contact.store');
+    Route::get('/events/{slug}/register', [RegistrationController::class, 'showForm'])->name('events.register');
+    Route::post('/events/{slug}/register', [RegistrationController::class, 'register'])->name('events.register.store');
+    Route::get('/events/{slug}/register/success/{id}', [RegistrationController::class, 'success'])->name('events.register.success');
 
-
-// ==========================================
-// 2. HALAMAN AUTENTIKASI MAHASISWA
-// ==========================================
-Route::view('/login', 'auth.login')->name('login');
-Route::post('/login', function () { 
-    // Simulasi jika berhasil login, buat session admin aktif dan lempar ke dashboard admin
-    session(['is_admin' => true]);
-    return redirect()->route('admin.dashboard'); 
-})->name('login.store');
-
-Route::view('/register', 'auth.register')->name('register');
-Route::post('/register', function () { 
-    return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silakan masuk.'); 
-})->name('register.store');
-
-Route::post('/logout', function () {
-    session()->forget('is_admin');
-    return redirect()->route('home');
-})->name('logout');
-
-// ==========================================
-// 3. HALAMAN BACKEND / ADMIN (BOOTSTRAP)
-// ==========================================
-Route::prefix('admin')->name('admin.')->group(function () {
-    
-    // Dashboard Utama Admin
-    Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
-
-    // CRUD Kelola Profil / About Organisasi
-    Route::get('/about', function () { return view('admin.about.index'); })->name('about');
-
-    // CRUD Kelola Berita Admin
-Route::get('/berita', function () { return view('admin.berita.index'); })->name('berita.index');
-Route::get('/berita/create', function () { return view('admin.berita.create'); })->name('berita.create');
-Route::get('/berita/{id}/edit', function ($id) { return view('admin.berita.edit', compact('id')); })->name('berita.edit');
-// ⬇️ UBAH BARIS INI (Ganti back() jadi redirect)
-Route::post('/berita', function () { return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil disimpan!'); })->name('berita.store');
-Route::put('/berita/{id}', function ($id) { return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui!'); })->name('berita.update');
-Route::delete('/berita/{id}', function ($id) { return back()->with('success', 'Berita berhasil dihapus!'); })->name('berita.destroy');
-
-// CRUD Kelola Event Admin
-Route::get('/event', function () { return view('admin.event.index'); })->name('event.index');
-Route::get('/event/create', function () { return view('admin.event.create'); })->name('event.create');
-Route::get('/event/{id}/edit', function ($id) { return view('admin.event.edit', compact('id')); })->name('event.edit');
-// ⬇️ UBAH BARIS INI (Ganti back() jadi redirect)
-Route::post('/event', function () { return redirect()->route('admin.event.index')->with('success', 'Event berhasil disimpan!'); })->name('event.store');
-Route::put('/event/{id}', function ($id) { return redirect()->route('admin.event.index')->with('success', 'Event berhasil diperbarui!'); })->name('event.update');
-Route::delete('/event/{id}', function ($id) { return back()->with('success', 'Event berhasil dihapus!'); })->name('event.destroy');
+    Route::get('/events/{slug}/book', [TicketController::class, 'showBookForm'])->name('events.book');
+    Route::post('/events/{slug}/book', [TicketController::class, 'book'])->name('events.book.store');
 });
+
+// Berita publik
+Route::get('/news',        [NewsController::class, 'index'])->name('news');
+Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+
+// Form kontak — menampung POST dari pages/about
+Route::post('/contact', [PageController::class, 'contact'])->name('contact.store');
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+
+Route::get('/login',    [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login',   [AuthController::class, 'login'])->name('login.store');
+Route::post('/logout',  [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/register',  [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+
+// ─── Panel Admin (harus login + role admin) ───────────────────────────────────
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'admin'])
+    ->group(function () {
+
+        // Dashboard (Bisa diakses Admin & Superadmin)
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Registrasi & Tiket (Bisa diakses Admin & Superadmin)
+        Route::get('/registrations', [\App\Http\Controllers\Admin\AdminTicketController::class, 'indexRegistrations'])->name('registrations.index');
+        Route::get('/registrations/event/{id}', [\App\Http\Controllers\Admin\AdminTicketController::class, 'showRegistrations'])->name('registrations.show');
+        Route::delete('/registrations/{id}', [\App\Http\Controllers\Admin\AdminTicketController::class, 'destroyRegistration'])->name('registrations.destroy');
+
+        Route::get('/tickets', [\App\Http\Controllers\Admin\AdminTicketController::class, 'indexTickets'])->name('tickets.index');
+        Route::get('/tickets/event/{id}', [\App\Http\Controllers\Admin\AdminTicketController::class, 'showTickets'])->name('tickets.show');
+
+        // Validasi Tiket (Bisa diakses Admin & Superadmin)
+        Route::get('/tickets/validate', [\App\Http\Controllers\Admin\AdminTicketController::class, 'showValidateForm'])->name('tickets.validate');
+        Route::post('/tickets/validate', [\App\Http\Controllers\Admin\AdminTicketController::class, 'validateTicketCode'])->name('tickets.validate.check');
+        Route::post('/tickets/validate/{code}/check-in', [\App\Http\Controllers\Admin\AdminTicketController::class, 'checkInTicketCode'])->name('tickets.validate.checkin');
+
+        // Kelola Konten & User (Hanya Superadmin)
+        Route::middleware(['superadmin'])->group(function () {
+            // Halaman About
+            Route::get('/about', [\App\Http\Controllers\Admin\AboutController::class, 'index'])->name('about');
+            Route::put('/about', [\App\Http\Controllers\Admin\AboutController::class, 'update'])->name('about.update');
+
+            // CRUD Berita
+            Route::resource('berita', BeritaController::class)->except('show')->parameters([
+                'berita' => 'berita',
+            ]);
+
+            // CRUD Event
+            Route::resource('event', EventController::class)->except('show');
+
+            // Manajemen User
+            Route::resource('users', UserController::class)->only(['index', 'update', 'destroy']);
+
+            // Hapus Pemesanan Tiket (Hanya Superadmin)
+            Route::delete('/tickets/{id}', [\App\Http\Controllers\Admin\AdminTicketController::class, 'destroyTicket'])->name('tickets.destroy');
+        });
+    });

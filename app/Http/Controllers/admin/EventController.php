@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
+use App\Models\Event;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
     public function index()
     {
-        return view('admin.event.index');
+        $events = Event::orderBy('tanggal')->get();
+
+        return view('admin.event.index', compact('events'));
     }
 
     public function create()
@@ -16,28 +23,63 @@ class EventController extends Controller
         return view('admin.event.create');
     }
 
-    public function store()
+    public function store(StoreEventRequest $request)
     {
-        return redirect()->route('admin.event.index')->with('success', 'Event berhasil ditambahkan.');
+        $data = $request->validated();
+
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')
+                ->store('events', 'public');
+        }
+
+        $data['slug']    = Str::slug($data['nama']);
+        $data['user_id'] = auth()->id();
+
+        Event::create($data);
+
+        return redirect()
+            ->route('admin.event.index')
+            ->with('success', 'Event berhasil ditambahkan.');
     }
 
-    public function show(string $id)
+    public function edit(Event $event)
     {
-        return redirect()->route('admin.event.edit', $id);
+        return view('admin.event.edit', compact('event'));
     }
 
-    public function edit(string $id)
+    public function update(UpdateEventRequest $request, Event $event)
     {
-        return view('admin.event.edit', ['id' => $id]);
+        $data = $request->validated();
+
+        if ($request->hasFile('gambar')) {
+            if ($event->gambar) {
+                Storage::disk('public')->delete($event->gambar);
+            }
+            $data['gambar'] = $request->file('gambar')
+                ->store('events', 'public');
+        }
+
+        if ($data['nama'] !== $event->nama) {
+            $data['slug'] = Str::slug($data['nama']);
+        }
+
+        $event->update($data);
+
+        return redirect()
+            ->route('admin.event.index')
+            ->with('success', 'Event berhasil diperbarui.');
     }
 
-    public function update(string $id)
+    public function destroy(Event $event)
     {
-        return redirect()->route('admin.event.index')->with('success', 'Event berhasil diperbarui.');
-    }
+        if ($event->gambar) {
+            Storage::disk('public')->delete($event->gambar);
+        }
 
-    public function destroy(string $id)
-    {
-        return redirect()->route('admin.event.index')->with('success', 'Event berhasil dihapus.');
+        $event->delete();
+
+        return redirect()
+            ->route('admin.event.index')
+            ->with('success', 'Event berhasil dihapus.');
     }
 }

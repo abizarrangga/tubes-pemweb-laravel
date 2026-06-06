@@ -13,7 +13,10 @@
     </div>
 
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     @endif
 
     <div class="card border-0 shadow-sm">
@@ -24,6 +27,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Event</th>
+                            <th>Kategori</th>
                             <th>Tanggal</th>
                             <th>Lokasi</th>
                             <th>Status</th>
@@ -31,30 +35,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $events = [
-                                ['id' => 2, 'nama' => 'Workshop Fotografi & Sinematografi', 'tanggal' => '5 Juli 2026', 'lokasi' => 'Ruang Kreatif DSB', 'status' => 'Mendatang'],
-                                ['id' => 3, 'nama' => 'Festival Teater Mahasiswa 2026', 'tanggal' => '15 Maret 2026', 'lokasi' => 'Gedung Kesenian Bandung', 'status' => 'Selesai'],
-                                ['id' => 4, 'nama' => 'Festival Musik Kampus Biru', 'tanggal' => '18 September 2026', 'lokasi' => 'Lapangan UPI Cibiru', 'status' => 'Mendatang'],
-                            ];
-                        @endphp
-
-                        @foreach ($events as $event)
+                        @forelse ($events as $event)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td class="fw-semibold">{{ $event['nama'] }}</td>
-                                <td>{{ $event['tanggal'] }}</td>
-                                <td>{{ $event['lokasi'] }}</td>
+                                <td class="fw-semibold">{{ $event->nama }}</td>
+                                <td><span class="badge bg-info">{{ $event->kategori }}</span></td>
+                                <td>{{ $event->tanggal->format('d M Y') }}</td>
+                                <td>{{ $event->lokasi }}</td>
                                 <td>
-                                    <span class="badge {{ $event['status'] === 'Mendatang' ? 'bg-primary' : 'bg-secondary' }}">
-                                        {{ $event['status'] }}
+                                    <span class="badge {{ $event->status === 'Mendatang' ? 'bg-primary' : 'bg-secondary' }}">
+                                        {{ $event->status }}
                                     </span>
                                 </td>
                                 <td class="text-end">
-                                    <a href="{{ route('admin.event.edit', $event['id']) }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('admin.event.edit', $event->id) }}" class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="{{ route('admin.event.destroy', $event['id']) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('admin.event.destroy', $event->id) }}" method="POST" class="d-inline"
+                                          onsubmit="return confirm('Yakin hapus event ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger" type="submit">
@@ -63,7 +61,13 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">
+                                    Belum ada event. <a href="{{ route('admin.event.create') }}">Tambah sekarang</a>.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

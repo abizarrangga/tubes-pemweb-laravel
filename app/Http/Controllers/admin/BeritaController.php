@@ -3,41 +3,83 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBeritaRequest;
+use App\Http\Requests\UpdateBeritaRequest;
+use App\Models\Berita;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BeritaController extends Controller
 {
     public function index()
     {
-        return view('admin.news.index');
+        $berita = Berita::orderByDesc('tanggal')->paginate(9);
+
+        return view('admin.berita.index', compact('berita'));
     }
 
     public function create()
     {
-        return view('admin.news.create');
+        return view('admin.berita.create');
     }
 
-    public function store()
+    public function store(StoreBeritaRequest $request)
     {
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan.');
+        $data = $request->validated();
+
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')
+                ->store('berita', 'public');
+        }
+
+        $data['slug']    = Str::slug($data['judul']);
+        $data['user_id'] = auth()->id();
+
+        Berita::create($data);
+
+        return redirect()
+            ->route('admin.berita.index')
+            ->with('success', 'Berita berhasil ditambahkan.');
     }
 
-    public function show(string $id)
+    public function edit(Berita $berita)
     {
-        return redirect()->route('admin.berita.edit', $id);
+        return view('admin.berita.edit', compact('berita'));
     }
 
-    public function edit(string $id)
+    public function update(UpdateBeritaRequest $request, Berita $berita)
     {
-        return view('admin.news.edit', ['id' => $id]);
+        $data = $request->validated();
+
+        if ($request->hasFile('gambar')) {
+            if ($berita->gambar) {
+                Storage::disk('public')->delete($berita->gambar);
+            }
+            $data['gambar'] = $request->file('gambar')
+                ->store('berita', 'public');
+        }
+
+        if ($data['judul'] !== $berita->judul) {
+            $data['slug'] = Str::slug($data['judul']);
+        }
+
+        $berita->update($data);
+
+        return redirect()
+            ->route('admin.berita.index')
+            ->with('success', 'Berita berhasil diperbarui.');
     }
 
-    public function update(string $id)
+    public function destroy(Berita $berita)
     {
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui.');
-    }
+        if ($berita->gambar) {
+            Storage::disk('public')->delete($berita->gambar);
+        }
 
-    public function destroy(string $id)
-    {
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus.');
+        $berita->delete();
+
+        return redirect()
+            ->route('admin.berita.index')
+            ->with('success', 'Berita berhasil dihapus.');
     }
 }

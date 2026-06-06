@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -19,27 +19,62 @@
             <p class="text-[#d7c9e1] text-sm mt-2">Daftar akun baru untuk menjelajahi event seni</p>
         </div>
 
-        <form action="{{ url('/register') }}" method="POST" class="space-y-5">
+        {{-- Tampilkan semua error sekaligus --}}
+        @if ($errors->any())
+            <div class="bg-red-900/50 border border-red-500 text-red-200 rounded-lg px-4 py-3 mb-5 text-sm">
+                <ul class="list-disc list-inside space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('register.store') }}" method="POST" class="space-y-5">
             @csrf
             <div>
                 <label class="block text-gray-300 text-sm mb-2">Nama Lengkap</label>
-                <input type="text" name="nama" placeholder="Masukkan nama lengkap" required
-                       class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border border-gray-600 focus:outline-none focus:border-[#FF4181] transition duration-300">
+                <input type="text" name="nama"
+                       value="{{ old('nama') }}"
+                       placeholder="Masukkan nama lengkap" required
+                       class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border
+                              {{ $errors->has('nama') ? 'border-red-500' : 'border-gray-600' }}
+                              focus:outline-none focus:border-[#FF4181] transition duration-300">
+                @error('nama')
+                    <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div>
                 <label class="block text-gray-300 text-sm mb-2">Email</label>
-                <input type="email" name="email" placeholder="contoh@mail.com" required
-                       class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border border-gray-600 focus:outline-none focus:border-[#FF4181] transition duration-300">
+                <input type="email" name="email"
+                       value="{{ old('email') }}"
+                       placeholder="contoh@mail.com" required
+                       class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border
+                              {{ $errors->has('email') ? 'border-red-500' : 'border-gray-600' }}
+                              focus:outline-none focus:border-[#FF4181] transition duration-300">
+                @error('email')
+                    <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div>
                 <label class="block text-gray-300 text-sm mb-2">Password</label>
                 <input type="password" name="password" placeholder="********" required
-                       class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border border-gray-600 focus:outline-none focus:border-[#FF4181] transition duration-300">
+                       class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border
+                              {{ $errors->has('password') ? 'border-red-500' : 'border-gray-600' }}
+                              focus:outline-none focus:border-[#FF4181] transition duration-300">
+                @error('password')
+                    <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div>
                 <label class="block text-gray-300 text-sm mb-2">Konfirmasi Password</label>
                 <input type="password" name="password_confirmation" placeholder="********" required
-                       class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border border-gray-600 focus:outline-none focus:border-[#FF4181] transition duration-300">
+                       class="w-full px-4 py-3 bg-[#0A1931] text-white rounded-lg border
+                              {{ $errors->has('password_confirmation') ? 'border-red-500' : 'border-gray-600' }}
+                              focus:outline-none focus:border-[#FF4181] transition duration-300">
+                @error('password_confirmation')
+                    <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <button type="submit"
                     class="w-full py-3 bg-[#F8bde2] hover:bg-[#e0306d] text-[#0b2c58] font-semibold rounded-lg shadow-lg hover:shadow-[#FF4181]/50 transition duration-300">
@@ -60,4 +95,3 @@
 
 </body>
 </html>
-

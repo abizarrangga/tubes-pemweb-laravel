@@ -11,13 +11,10 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
-            @php
-                $event = ['nama' => 'Workshop Fotografi & Sinematografi', 'lokasi' => 'Ruang Kreatif DSB', 'gambar_url' => 'https://images.unsplash.com/photo-1560421683-6856ea585c78?w=900&h=600&fit=crop'];
-            @endphp
-            <form action="{{ route('admin.event.update', $id ?? 1) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.event.update', $event->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                @include('admin.event.form', ['button' => 'Perbarui Event', 'event' => $event])
+                @include('admin.event.form', ['button' => 'Perbarui Event'])
             </form>
         </div>
     </div>
